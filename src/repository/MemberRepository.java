@@ -11,6 +11,8 @@ public class MemberRepository {
     private static final MemberRepository instance = new MemberRepository();
 
     private MemberRepository() {
+        // admin 계정 기본 생성
+        save("admin", "admin");
     }
 
     public static MemberRepository getInstance() {
