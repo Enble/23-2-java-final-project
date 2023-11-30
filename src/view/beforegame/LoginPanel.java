@@ -1,5 +1,6 @@
-package view;
+package view.beforegame;
 
+import domain.Member;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import repository.MemberRepository;
+import view.MainFrame;
 
 public class LoginPanel extends JPanel {
     private final MemberRepository memberRepository = MemberRepository.getInstance();
@@ -52,16 +54,19 @@ public class LoginPanel extends JPanel {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 회원가입
                 String id = idTf.getText();
                 String password = passwordTf.getText();
-                if (memberRepository.login(id, password)) {
+
+                // 로그인 검증
+                if (memberRepository.isValidMember(id, password)) {
+                    mainFrame.setPlayer(new Member(id, password));
+
                     // 입력값 초기화
                     idTf.setText("");
                     passwordTf.setText("");
 
                     // 게임 화면으로 이동
-                    mainFrame.changePanel("view.MainMenuPanel");
+                    mainFrame.changePanel("view.beforegame.MainMenuPanel");
                 } else {
                     // 로그인 실패
                     JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 일치하지 않습니다.");
@@ -83,7 +88,7 @@ public class LoginPanel extends JPanel {
                 passwordTf.setText("");
 
                 // 시작메뉴 화면으로 이동
-                mainFrame.changePanel("view.StartMenuPanel");
+                mainFrame.changePanel("view.beforegame.StartMenuPanel");
             }
         });
         btnBox.add(backBtn);

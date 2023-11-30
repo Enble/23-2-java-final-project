@@ -1,7 +1,12 @@
 package view;
 
+import domain.Member;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
+import view.beforegame.LoginPanel;
+import view.beforegame.MainMenuPanel;
+import view.beforegame.RegisterPanel;
+import view.beforegame.StartMenuPanel;
 
 public class MainFrame extends JFrame {
     private CardLayout cardLayout = new CardLayout();
@@ -10,6 +15,9 @@ public class MainFrame extends JFrame {
     private LoginPanel loginPanel;
     private MainMenuPanel mainMenuPanel;
     private GamePanel gamePanel;
+
+    // 현재 이 게임의 플레이어
+    private Member player;
 
     public MainFrame() {
         setTitle("타이핑 게임");
@@ -23,19 +31,19 @@ public class MainFrame extends JFrame {
 
         // 시작메뉴
         startMenuPanel = new StartMenuPanel(this);
-        getContentPane().add("view.StartMenuPanel", startMenuPanel);
+        getContentPane().add("view.beforegame.StartMenuPanel", startMenuPanel);
 
         // 회원가입
         registerPanel = new RegisterPanel(this);
-        getContentPane().add("view.RegisterPanel", registerPanel);
+        getContentPane().add("view.beforegame.RegisterPanel", registerPanel);
 
         // 로그인
         loginPanel = new LoginPanel(this);
-        getContentPane().add("view.LoginPanel", loginPanel);
+        getContentPane().add("view.beforegame.LoginPanel", loginPanel);
 
         // 메인메뉴
         mainMenuPanel = new MainMenuPanel(this);
-        getContentPane().add("view.MainMenuPanel", mainMenuPanel);
+        getContentPane().add("view.beforegame.MainMenuPanel", mainMenuPanel);
 
         // 게임
         gamePanel = new GamePanel();
@@ -47,5 +55,13 @@ public class MainFrame extends JFrame {
 
     public void changePanel(String panelName) {
         cardLayout.show(getContentPane(), panelName);
+    }
+
+    public Member getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Member player) {
+        this.player = player;
     }
 }

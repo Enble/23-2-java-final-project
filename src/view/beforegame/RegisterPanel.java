@@ -1,4 +1,4 @@
-package view;
+package view.beforegame;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import repository.MemberRepository;
+import view.MainFrame;
 
 public class RegisterPanel extends JPanel {
     private final MemberRepository memberRepository = MemberRepository.getInstance();
@@ -51,9 +52,9 @@ public class RegisterPanel extends JPanel {
         registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 회원가입
                 String id = idTf.getText();
                 String password = passwordTf.getText();
+                // 회원가입
                 memberRepository.save(id, password);
 
                 // 입력값 초기화
@@ -61,7 +62,7 @@ public class RegisterPanel extends JPanel {
                 passwordTf.setText("");
 
                 // 로그인 화면으로 이동
-                mainFrame.changePanel("view.LoginPanel");
+                mainFrame.changePanel("view.beforegame.LoginPanel");
             }
         });
         btnBox.add(registerBtn);
@@ -79,7 +80,7 @@ public class RegisterPanel extends JPanel {
                 passwordTf.setText("");
 
                 // 시작메뉴 화면으로 이동
-                mainFrame.changePanel("view.StartMenuPanel");
+                mainFrame.changePanel("view.beforegame.StartMenuPanel");
             }
         });
         btnBox.add(backBtn);

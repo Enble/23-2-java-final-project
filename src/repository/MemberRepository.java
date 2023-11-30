@@ -29,7 +29,7 @@ public class MemberRepository {
         members.add(member);
     }
 
-    public boolean login(String id, String password) {
+    public boolean isValidMember(String id, String password) {
         for (Member member : members) {
             if (member.getId().equals(id) && member.getPassword().equals(password)) {
                 return true;

@@ -1,4 +1,4 @@
-package view;
+package view.beforegame;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import view.MainFrame;
 
 public class MainMenuPanel extends JPanel {
     public MainMenuPanel(MainFrame mainFrame) {

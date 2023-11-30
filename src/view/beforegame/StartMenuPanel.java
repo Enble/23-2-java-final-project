@@ -1,4 +1,4 @@
-package view;
+package view.beforegame;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import view.MainFrame;
 
 public class StartMenuPanel extends JPanel {
     public StartMenuPanel(MainFrame mainFrame) {
@@ -29,7 +30,7 @@ public class StartMenuPanel extends JPanel {
         registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.changePanel("view.RegisterPanel");
+                mainFrame.changePanel("view.beforegame.RegisterPanel");
             }
         });
         add(registerBtn);
@@ -42,7 +43,7 @@ public class StartMenuPanel extends JPanel {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.changePanel("view.LoginPanel");
+                mainFrame.changePanel("view.beforegame.LoginPanel");
             }
         });
         add(loginBtn);
