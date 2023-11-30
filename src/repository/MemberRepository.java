@@ -5,9 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemberRepository {
+    /**
+     * 싱글톤 패턴 관련 코드
+     */
+    private static final MemberRepository instance = new MemberRepository();
+
+    private MemberRepository() {
+    }
+
+    public static MemberRepository getInstance() {
+        return instance;
+    }
+
+    /**
+     * 회원가입, 로그인 관련 코드
+     */
     private final List<Member> members = new ArrayList<>();
 
-    public void save(Member member) {
+    public void save(String id, String password) {
+        Member member = new Member(id, password);
         members.add(member);
     }
 
@@ -18,5 +34,9 @@ public class MemberRepository {
             }
         }
         return false;
+    }
+
+    public List<Member> getMembers() {
+        return members;
     }
 }

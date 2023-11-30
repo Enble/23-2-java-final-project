@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class StartMenuPanel extends JPanel {
-    public StartMenuPanel(GameFrame gameFrame) {
+    public StartMenuPanel(MainFrame mainFrame) {
         add(new JLabel("view.StartMenuPanel"));
 
         JButton registerBtn = new JButton("회원가입");
@@ -15,7 +15,7 @@ public class StartMenuPanel extends JPanel {
         registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameFrame.changePanel("view.RegisterPanel");
+                mainFrame.changePanel("view.RegisterPanel");
             }
         });
         add(registerBtn);
@@ -25,7 +25,7 @@ public class StartMenuPanel extends JPanel {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameFrame.changePanel("view.LoginPanel");
+                mainFrame.changePanel("view.LoginPanel");
             }
         });
         add(loginBtn);
