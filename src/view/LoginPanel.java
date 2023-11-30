@@ -61,7 +61,7 @@ public class LoginPanel extends JPanel {
                     passwordTf.setText("");
 
                     // 게임 화면으로 이동
-                    mainFrame.changePanel("view.GamePanel");
+                    mainFrame.changePanel("view.MainMenuPanel");
                 } else {
                     // 로그인 실패
                     JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 일치하지 않습니다.");

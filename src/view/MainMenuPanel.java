@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
@@ -12,32 +13,43 @@ import javax.swing.border.EmptyBorder;
 public class MainMenuPanel extends JPanel {
     public MainMenuPanel(MainFrame mainFrame) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(new EmptyBorder(300, 450, 300, 450));
+        setBorder(new EmptyBorder(250, 400, 0, 400));
 
-        // 버튼
-        Box btnBox = Box.createHorizontalBox();
-        JButton registerBtn = new JButton("회원가입");
-        registerBtn.addActionListener(new ActionListener() {
+        JButton startBtn = new JButton("게임 시작");
+        startBtn.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+        startBtn.setAlignmentX(CENTER_ALIGNMENT);
+        startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 로그인 화면으로 이동
-                mainFrame.changePanel("view.LoginPanel");
+                mainFrame.changePanel("view.GamePanel");
             }
         });
-        btnBox.add(registerBtn);
+        add(startBtn);
 
-        btnBox.add(Box.createRigidArea(new Dimension(20, 0)));
+        add(Box.createRigidArea(new Dimension(0, 40)));
 
-        JButton backBtn = new JButton("뒤로가기");
-        backBtn.addActionListener(new ActionListener() {
+        JButton rankBtn = new JButton("랭킹");
+        rankBtn.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+        rankBtn.setAlignmentX(CENTER_ALIGNMENT);
+        rankBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 시작메뉴 화면으로 이동
-                mainFrame.changePanel("view.StartMenuPanel");
+                mainFrame.changePanel("view.RankPanel");
             }
         });
-        btnBox.add(backBtn);
+        add(rankBtn);
 
-        add(btnBox);
+        add(Box.createRigidArea(new Dimension(0, 40)));
+
+        JButton settingBtn = new JButton("설정");
+        settingBtn.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+        settingBtn.setAlignmentX(CENTER_ALIGNMENT);
+        settingBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.changePanel("view.SettingPanel");
+            }
+        });
+        add(settingBtn);
     }
 }
