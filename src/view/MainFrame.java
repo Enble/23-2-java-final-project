@@ -16,6 +16,7 @@ public class MainFrame extends JFrame {
         // 화면 한 가운데로 설정
         setSize(1200, 800);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         // 카드 레이아웃으로 설정
         getContentPane().setLayout(cardLayout);
