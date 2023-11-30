@@ -24,4 +24,13 @@ public class DictionaryService {
             scanner.close();
         }
     }
+
+    public String nextWord() {
+        int index = (int) (Math.random() * words.size());
+        return words.get(index);
+    }
+
+    public void addWord(String word) {
+        words.add(word);
+    }
 }

@@ -6,12 +6,12 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 public class GamePanel extends JPanel {
-    private GameGround gameGround = new GameGround();
-    private TypingBar typingBar = new TypingBar();
+    private MonitorPanel monitorPanel = new MonitorPanel();
+    private TypingPanel typingPanel = new TypingPanel();
     private ScorePanel scorePanel = new ScorePanel();
     private ItemPanel itemPanel = new ItemPanel();
 
-    private final GameController gameController = new GameController(gameGround, typingBar, scorePanel, itemPanel);
+    private final GameController gameController = new GameController(monitorPanel, typingPanel, scorePanel, itemPanel);
 
     public GamePanel() {
         setLayout(new BorderLayout());
@@ -30,8 +30,8 @@ public class GamePanel extends JPanel {
         vPaneLeft.setDividerLocation(650);
         vPaneLeft.setEnabled(false);
 
-        vPaneLeft.setTopComponent(gameGround);
-        vPaneLeft.setBottomComponent(typingBar);
+        vPaneLeft.setTopComponent(monitorPanel);
+        vPaneLeft.setBottomComponent(typingPanel);
 
         JSplitPane vPaneRight = new JSplitPane();
         vPaneRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
