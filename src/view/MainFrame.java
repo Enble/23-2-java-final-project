@@ -8,6 +8,7 @@ public class MainFrame extends JFrame {
     private StartMenuPanel startMenuPanel;
     private RegisterPanel registerPanel;
     private LoginPanel loginPanel;
+    private MainMenuPanel mainMenuPanel;
     private GamePanel gamePanel;
 
     public MainFrame() {
@@ -28,8 +29,12 @@ public class MainFrame extends JFrame {
         getContentPane().add("view.RegisterPanel", registerPanel);
 
         // 로그인
-        loginPanel = new LoginPanel();
+        loginPanel = new LoginPanel(this);
         getContentPane().add("view.LoginPanel", loginPanel);
+
+        // 메인메뉴
+        mainMenuPanel = new MainMenuPanel(this);
+        getContentPane().add("view.MainMenuPanel", mainMenuPanel);
 
         // 게임
         gamePanel = new GamePanel();
