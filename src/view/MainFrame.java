@@ -7,6 +7,7 @@ import view.beforegame.LoginPanel;
 import view.beforegame.MainMenuPanel;
 import view.beforegame.RegisterPanel;
 import view.beforegame.StartMenuPanel;
+import view.ingame.GamePanel;
 
 public class MainFrame extends JFrame {
     private CardLayout cardLayout = new CardLayout();
@@ -47,7 +48,7 @@ public class MainFrame extends JFrame {
 
         // 게임
         gamePanel = new GamePanel();
-        getContentPane().add("view.GamePanel", gamePanel);
+        getContentPane().add("view.ingame.GamePanel", gamePanel);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);

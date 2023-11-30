@@ -1,21 +1,21 @@
-package repository;
+package service;
 
 import domain.Member;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberRepository {
+public class MemberService {
     /**
      * 싱글톤 패턴 관련 코드
      */
-    private static final MemberRepository instance = new MemberRepository();
+    private static final MemberService instance = new MemberService();
 
-    private MemberRepository() {
+    private MemberService() {
         // admin 계정 기본 생성
         save("admin", "admin");
     }
 
-    public static MemberRepository getInstance() {
+    public static MemberService getInstance() {
         return instance;
     }
 

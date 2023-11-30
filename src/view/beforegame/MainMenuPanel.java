@@ -22,7 +22,7 @@ public class MainMenuPanel extends JPanel {
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.changePanel("view.GamePanel");
+                mainFrame.changePanel("view.ingame.GamePanel");
             }
         });
         add(startBtn);

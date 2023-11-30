@@ -13,11 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import repository.MemberRepository;
+import service.MemberService;
 import view.MainFrame;
 
 public class LoginPanel extends JPanel {
-    private final MemberRepository memberRepository = MemberRepository.getInstance();
+    private final MemberService memberService = MemberService.getInstance();
 
     public LoginPanel(MainFrame mainFrame) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -58,7 +58,7 @@ public class LoginPanel extends JPanel {
                 String password = passwordTf.getText();
 
                 // 로그인 검증
-                if (memberRepository.isValidMember(id, password)) {
+                if (memberService.isValidMember(id, password)) {
                     mainFrame.setPlayer(new Member(id, password));
 
                     // 입력값 초기화

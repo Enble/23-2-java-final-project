@@ -11,11 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import repository.MemberRepository;
+import service.MemberService;
 import view.MainFrame;
 
 public class RegisterPanel extends JPanel {
-    private final MemberRepository memberRepository = MemberRepository.getInstance();
+    private final MemberService memberService = MemberService.getInstance();
 
     public RegisterPanel(MainFrame mainFrame) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -55,7 +55,7 @@ public class RegisterPanel extends JPanel {
                 String id = idTf.getText();
                 String password = passwordTf.getText();
                 // 회원가입
-                memberRepository.save(id, password);
+                memberService.save(id, password);
 
                 // 입력값 초기화
                 idTf.setText("");
