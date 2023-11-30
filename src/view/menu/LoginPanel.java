@@ -1,4 +1,4 @@
-package view.beforegame;
+package view.menu;
 
 import domain.Member;
 import java.awt.Dimension;
@@ -25,28 +25,33 @@ public class LoginPanel extends JPanel {
 
         // id 입력 Box
         Box idBox = Box.createHorizontalBox();
+        idBox.setAlignmentX(CENTER_ALIGNMENT);
+
         JLabel idLabel = new JLabel("   아이디");
         idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         idBox.add(idLabel);
         idBox.add(Box.createRigidArea(new Dimension(20, 0)));
-        JTextField idTf = new JTextField("", 10);
+
+        JTextField idTf = new JTextField("admin", 10);
         idTf.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         idBox.add(idTf);
-        idBox.setAlignmentX(CENTER_ALIGNMENT);
 
         // password 입력 Box
         Box passwordBox = Box.createHorizontalBox();
+        passwordBox.setAlignmentX(CENTER_ALIGNMENT);
+
         JLabel passwordLabel = new JLabel("비밀번호");
         passwordLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         passwordBox.add(passwordLabel);
         passwordBox.add(Box.createRigidArea(new Dimension(20, 0)));
-        JTextField passwordTf = new JTextField("", 10);
+
+        JTextField passwordTf = new JTextField("admin", 10);
         passwordTf.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         passwordBox.add(passwordTf);
-        passwordBox.setAlignmentX(CENTER_ALIGNMENT);
 
         // 버튼 Box
         Box btnBox = Box.createHorizontalBox();
+        btnBox.setAlignmentX(CENTER_ALIGNMENT);
 
         // 로그인 버튼
         JButton loginBtn = new JButton("로그인");
@@ -66,7 +71,7 @@ public class LoginPanel extends JPanel {
                     passwordTf.setText("");
 
                     // 게임 화면으로 이동
-                    mainFrame.changePanel("view.beforegame.MainMenuPanel");
+                    mainFrame.changePanel("view.menu.MainMenuPanel");
                 } else {
                     // 로그인 실패
                     JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 일치하지 않습니다.");
@@ -88,7 +93,7 @@ public class LoginPanel extends JPanel {
                 passwordTf.setText("");
 
                 // 시작메뉴 화면으로 이동
-                mainFrame.changePanel("view.beforegame.StartMenuPanel");
+                mainFrame.changePanel("view.menu.StartMenuPanel");
             }
         });
         btnBox.add(backBtn);

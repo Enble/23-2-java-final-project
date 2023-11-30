@@ -1,4 +1,4 @@
-package view.beforegame;
+package view.menu;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -62,7 +62,7 @@ public class RegisterPanel extends JPanel {
                 passwordTf.setText("");
 
                 // 로그인 화면으로 이동
-                mainFrame.changePanel("view.beforegame.LoginPanel");
+                mainFrame.changePanel("view.menu.LoginPanel");
             }
         });
         btnBox.add(registerBtn);
@@ -80,7 +80,7 @@ public class RegisterPanel extends JPanel {
                 passwordTf.setText("");
 
                 // 시작메뉴 화면으로 이동
-                mainFrame.changePanel("view.beforegame.StartMenuPanel");
+                mainFrame.changePanel("view.menu.StartMenuPanel");
             }
         });
         btnBox.add(backBtn);

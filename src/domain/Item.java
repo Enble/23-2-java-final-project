@@ -1,5 +1,7 @@
 package domain;
 
+import enums.ItemType;
+
 public class Item {
     private String name;
     private ItemType type;

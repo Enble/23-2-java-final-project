@@ -1,9 +1,10 @@
-package view.ingame;
+package view.game;
 
-import domain.GameController;
+import controller.GameController;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import view.MainFrame;
 
 public class GamePanel extends JPanel {
     private MonitorPanel monitorPanel = new MonitorPanel();
@@ -13,7 +14,7 @@ public class GamePanel extends JPanel {
 
     private final GameController gameController = new GameController(monitorPanel, typingPanel, scorePanel, itemPanel);
 
-    public GamePanel() {
+    public GamePanel(MainFrame mainFrame) {
         setLayout(new BorderLayout());
         splitPanel();
     }

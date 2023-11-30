@@ -1,4 +1,4 @@
-package view.beforegame;
+package view.menu;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -22,6 +22,7 @@ public class StartMenuPanel extends JPanel {
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
         add(titleLabel);
 
+        // padding
         add(Box.createRigidArea(new Dimension(0, 60)));
 
         JButton registerBtn = new JButton("회원가입");
@@ -30,11 +31,12 @@ public class StartMenuPanel extends JPanel {
         registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.changePanel("view.beforegame.RegisterPanel");
+                mainFrame.changePanel("view.menu.RegisterPanel");
             }
         });
         add(registerBtn);
 
+        // padding
         add(Box.createRigidArea(new Dimension(0, 40)));
 
         JButton loginBtn = new JButton("로그인");
@@ -43,7 +45,7 @@ public class StartMenuPanel extends JPanel {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.changePanel("view.beforegame.LoginPanel");
+                mainFrame.changePanel("view.menu.LoginPanel");
             }
         });
         add(loginBtn);

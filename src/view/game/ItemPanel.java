@@ -1,9 +1,10 @@
-package view.ingame;
+package view.game;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ItemPanel extends JPanel {
     public ItemPanel() {
-        System.out.println("ItemPanel");
+        add(new JLabel("아이템 패널"));
     }
 }

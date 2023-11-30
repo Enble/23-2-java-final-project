@@ -1,4 +1,4 @@
-package domain;
+package enums;
 
 public enum ItemType {
     MEDKIT(10),

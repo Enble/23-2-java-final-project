@@ -1,4 +1,4 @@
-package domain;
+package enums;
 
 public enum DifficultyType {
     EASY(7, 1.0),

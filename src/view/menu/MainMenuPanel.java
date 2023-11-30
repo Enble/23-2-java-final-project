@@ -1,4 +1,4 @@
-package view.beforegame;
+package view.menu;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -22,7 +22,7 @@ public class MainMenuPanel extends JPanel {
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.changePanel("view.ingame.GamePanel");
+                mainFrame.changePanel("view.menu.DifficultyPanel");
             }
         });
         add(startBtn);

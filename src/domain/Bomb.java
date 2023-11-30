@@ -1,5 +1,6 @@
 package domain;
 
+import enums.BombType;
 import java.awt.Point;
 
 public class Bomb {

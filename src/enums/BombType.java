@@ -1,4 +1,4 @@
-package domain;
+package enums;
 
 public enum BombType {
     SMALL(1, 1, 1),

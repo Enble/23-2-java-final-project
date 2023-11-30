@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class DictionaryService {
+public class WordService {
     private List<String> words = new ArrayList<>(30_000);
     private Scanner scanner;
 
-    public DictionaryService() {
+    public WordService() {
         try {
-            scanner = new Scanner(new FileReader("words.txt"));
+            scanner = new Scanner(new FileReader("src/service/words.txt"));
             while(scanner.hasNext()) {
                 String word = scanner.nextLine();
                 words.add(word);
