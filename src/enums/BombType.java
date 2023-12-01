@@ -1,19 +1,21 @@
 package enums;
 
 public enum BombType {
-    SMALL(1, 1, 1),
-    MEDIUM(2, 2, 2),
-    LARGE(3, 3, 3),
-    NUKE(6, 1000, 5);
+    SMALL(1, 1, 20, 40),
+    MEDIUM(2, 2, 30, 60),
+    LARGE(3, 3, 40, 80),
+    NUKE(6, 1000, 60, 120);
 
     private final int speed;
     private final int damage;
-    private final int size;
+    private final int width;
+    private final int height;
 
-    BombType(int speed, int damage, int size) {
+    BombType(int speed, int damage, int width, int height) {
         this.speed = speed;
         this.damage = damage;
-        this.size = size;
+        this.width = width;
+        this.height = height;
     }
 
     public static BombType generateRandomBombType(DifficultyType difficultyType) {
@@ -67,8 +69,12 @@ public enum BombType {
         return damage;
     }
 
-    public int getSize() {
-        return size;
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
 }

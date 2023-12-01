@@ -2,16 +2,19 @@ package domain;
 
 import enums.BombType;
 import java.awt.Point;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class Bomb {
     private Point location;
     private String word;
-    private BombType type;
+    private BombType bombType;
 
-    public Bomb(Point location, String word, BombType type) {
+    public Bomb(Point location, String word, BombType bombType) {
         this.location = location;
         this.word = word;
-        this.type = type;
+        this.bombType = bombType;
     }
 
     public Point getLocation() {
@@ -22,19 +25,8 @@ public class Bomb {
         return word;
     }
 
-    public BombType getType() {
-        return type;
+    public BombType getBombType() {
+        return bombType;
     }
 
-    public void setLocation(Point location) {
-        this.location = location;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
-    }
-
-    public void setType(BombType type) {
-        this.type = type;
-    }
 }

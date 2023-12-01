@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import service.WordService;
 import view.game.GamePanel;
 import view.menu.DifficultyPanel;
 import view.menu.LoginPanel;
@@ -38,32 +40,34 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
+        makeMenu();
+
         // 카드 레이아웃으로 설정
         getContentPane().setLayout(cardLayout);
 
         // 시작메뉴
         startMenuPanel = new StartMenuPanel(this);
-        getContentPane().add("view.beforegame.StartMenuPanel", startMenuPanel);
+        getContentPane().add("view.menu.StartMenuPanel", startMenuPanel);
 
         // 회원가입
         registerPanel = new RegisterPanel(this);
-        getContentPane().add("view.beforegame.RegisterPanel", registerPanel);
+        getContentPane().add("view.menu.RegisterPanel", registerPanel);
 
         // 로그인
         loginPanel = new LoginPanel(this);
-        getContentPane().add("view.beforegame.LoginPanel", loginPanel);
+        getContentPane().add("view.menu.LoginPanel", loginPanel);
 
         // 메인메뉴
         mainMenuPanel = new MainMenuPanel(this);
-        getContentPane().add("view.beforegame.MainMenuPanel", mainMenuPanel);
+        getContentPane().add("view.menu.MainMenuPanel", mainMenuPanel);
 
         // 난이도 선택
         difficultyPanel = new DifficultyPanel(this);
-        getContentPane().add("view.beforegame.DifficultyPanel", difficultyPanel);
+        getContentPane().add("view.menu.DifficultyPanel", difficultyPanel);
 
         // 게임
         gamePanel = new GamePanel(this);
-        getContentPane().add("view.ingame.GamePanel", gamePanel);
+        getContentPane().add("view.game.GamePanel", gamePanel);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -75,7 +79,8 @@ public class MainFrame extends JFrame {
 
         // 게임 종료
         JMenu exitMenu = new JMenu("게임 종료");
-        exitMenu.addActionListener(new ActionListener() {
+        JMenuItem exitMi = exitMenu.add(new JMenuItem("종료"));
+        exitMi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -84,14 +89,19 @@ public class MainFrame extends JFrame {
         mb.add(exitMenu);
 
         JMenu editMenu = new JMenu("단어장");
-        JMenuItem viewWordBookMi = editMenu.add(new JMenuItem("단어장 보기"));
-        viewWordBookMi.addActionListener(new ActionListener() {
+        JMenuItem addWordMi = editMenu.add(new JMenuItem("단어 추가"));
+        addWordMi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                changePanel("view.menu.WordBookPanel");
+                String word = JOptionPane.showInputDialog("추가할 단어를 입력하세요.");
+                if (word != null) {
+                    WordService.addWord(word);
+                    JOptionPane.showMessageDialog(null, "단어가 추가되었습니다.", "단어 추가 성공", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "단어를 입력하지 않았습니다.", "단어 추가 오류", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-        JMenuItem addWordMi = editMenu.add(new JMenuItem("단어 추가"));
         mb.add(editMenu);
     }
 

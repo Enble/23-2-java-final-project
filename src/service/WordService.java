@@ -1,36 +1,41 @@
 package service;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Random;
 
 public class WordService {
-    private List<String> words = new ArrayList<>(30_000);
-    private Scanner scanner;
+    private static final String WORD_PATH = "src/service/words.txt";
+    private static final Random RAND = new Random();
+    private static final List<String> words;
 
-    public WordService() {
+    private WordService() {
+    }
+
+    static {
         try {
-            scanner = new Scanner(new FileReader("src/service/words.txt"));
-            while(scanner.hasNext()) {
-                String word = scanner.nextLine();
-                words.add(word);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("words.txt 파일이 없습니다.");
+            words = new ArrayList<>(Files.readAllLines(Path.of(WORD_PATH)));
+        } catch (IOException e) {
+            System.out.println("words.txt 파일을 읽을 수 없습니다.");
             System.exit(0);
-        } finally {
-            scanner.close();
+            throw new RuntimeException(e);
         }
     }
 
-    public String nextWord() {
-        int index = (int) (Math.random() * words.size());
-        return words.get(index);
+    public static String nextWord() {
+        return words.get(RAND.nextInt(words.size()));
     }
 
-    public void addWord(String word) {
-        words.add(word);
+    public static void addWord(String word) {
+        try {
+            Files.writeString(Path.of(WORD_PATH), word + System.lineSeparator(), StandardOpenOption.APPEND);
+            words.add(word);
+        } catch (IOException e) {
+            System.out.println("words.txt 파일을 읽을 수 없습니다.");
+        }
     }
 }

@@ -1,20 +1,25 @@
 package view.game;
 
-import controller.GameController;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import view.MainFrame;
 
 public class GamePanel extends JPanel {
-    private MonitorPanel monitorPanel = new MonitorPanel();
-    private TypingPanel typingPanel = new TypingPanel();
-    private ScorePanel scorePanel = new ScorePanel();
-    private ItemPanel itemPanel = new ItemPanel();
-
-    private final GameController gameController = new GameController(monitorPanel, typingPanel, scorePanel, itemPanel);
+    private final MainFrame mainFrame;
+    private final MonitorPanel monitorPanel;
+    private final TypingPanel typingPanel;
+    private final ScorePanel scorePanel;
+    private final ItemPanel itemPanel;
 
     public GamePanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+
+        typingPanel = new TypingPanel(this);
+        scorePanel = new ScorePanel();
+        itemPanel = new ItemPanel();
+        monitorPanel = new MonitorPanel(mainFrame, typingPanel, scorePanel, itemPanel);
+
         setLayout(new BorderLayout());
         splitPanel();
     }
@@ -22,7 +27,7 @@ public class GamePanel extends JPanel {
     private void splitPanel() {
         JSplitPane hPane = new JSplitPane();
         hPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-        hPane.setDividerLocation(800);
+        hPane.setDividerLocation(850);
         hPane.setEnabled(false);
         this.add(hPane);
 
@@ -44,5 +49,9 @@ public class GamePanel extends JPanel {
 
         hPane.setLeftComponent(vPaneLeft);
         hPane.setRightComponent(vPaneRight);
+    }
+
+    public MonitorPanel getMonitorPanel() {
+        return monitorPanel;
     }
 }
