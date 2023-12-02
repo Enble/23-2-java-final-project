@@ -7,15 +7,15 @@ import view.MainFrame;
 
 public class GamePanel extends JPanel {
     private final MonitorPanel monitorPanel;
-    private final TypingPanel typingPanel;
+    private final TypingLifePanel typingLifePanel;
     private final TimePanel timePanel;
     private final ItemPanel itemPanel;
 
     public GamePanel(MainFrame mainFrame) {
-        typingPanel = new TypingPanel(this);
-        timePanel = new TimePanel();
+        typingLifePanel = new TypingLifePanel(this);
+        timePanel = new TimePanel(this);
         itemPanel = new ItemPanel();
-        monitorPanel = new MonitorPanel(mainFrame, typingPanel, timePanel, itemPanel);
+        monitorPanel = new MonitorPanel(mainFrame, typingLifePanel, timePanel, itemPanel);
 
         setLayout(new BorderLayout());
         splitPanel();
@@ -30,15 +30,15 @@ public class GamePanel extends JPanel {
 
         JSplitPane vPaneLeft = new JSplitPane();
         vPaneLeft.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        vPaneLeft.setDividerLocation(650);
+        vPaneLeft.setDividerLocation(685);
         vPaneLeft.setEnabled(false);
 
         vPaneLeft.setTopComponent(monitorPanel);
-        vPaneLeft.setBottomComponent(typingPanel);
+        vPaneLeft.setBottomComponent(typingLifePanel);
 
         JSplitPane vPaneRight = new JSplitPane();
         vPaneRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        vPaneRight.setDividerLocation(250);
+        vPaneRight.setDividerLocation(140);
         vPaneRight.setEnabled(false);
 
         vPaneRight.setTopComponent(timePanel);
@@ -52,8 +52,8 @@ public class GamePanel extends JPanel {
         return monitorPanel;
     }
 
-    public TypingPanel getTypingPanel() {
-        return typingPanel;
+    public TypingLifePanel getTypingPanel() {
+        return typingLifePanel;
     }
 
     public TimePanel getTimePanel() {

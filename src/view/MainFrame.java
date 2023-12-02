@@ -82,8 +82,12 @@ public class MainFrame extends JFrame {
         mainMenuMi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gamePanel.getMonitorPanel().stopGame();
-                changePanel("view.menu.MainMenuPanel");
+                if (player == null) {
+                    JOptionPane.showMessageDialog(null, "로그인이 필요합니다.", "로그인 에러", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    gamePanel.getMonitorPanel().stopGame();
+                    changePanel("view.menu.MainMenuPanel");
+                }
             }
         });
 
@@ -93,6 +97,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gamePanel.getMonitorPanel().stopGame();
+                setPlayer(null);
                 changePanel("view.menu.StartMenuPanel");
             }
         });

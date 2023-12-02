@@ -2,47 +2,59 @@ package view.game;
 
 import domain.Bomb;
 import enums.BombType;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import service.WordService;
 import view.MainFrame;
 
 public class MonitorPanel extends JPanel {
     private final MainFrame mainFrame;
-    private final TypingPanel typingPanel;
+    private final TypingLifePanel typingLifePanel;
     private final TimePanel timePanel;
     private final ItemPanel itemPanel;
 
     // 폭탄이 저장되는 배열. 내부적으로 JLabel을 들고 있다.
     // 동시성 문제를 해결하기 위해 CopyOnWriteArrayList를 사용한다.
     private final List<Bomb> bombs = new CopyOnWriteArrayList<>();
+
+    // 폭탄 이미지
     private final ImageIcon bombIi = new ImageIcon("src/images/bomb.png");
     private final Image smallBombImage = bombIi.getImage().getScaledInstance(20, 40, Image.SCALE_SMOOTH);
     private final Image mediumBombImage = bombIi.getImage().getScaledInstance(30, 60, Image.SCALE_SMOOTH);
     private final Image largeBombImage = bombIi.getImage().getScaledInstance(40, 80, Image.SCALE_SMOOTH);
     private final Image nukeBombImage = bombIi.getImage().getScaledInstance(60, 120, Image.SCALE_SMOOTH);
+
+    // 배경 이미지
     private final ImageIcon backgroundIi = new ImageIcon("src/images/background.png");
 
     // 게임 시작 버튼
     private JButton startButton;
-
     // 게임 스레드
     private GameThread gameThread;
-
-    // Thread sleep 시간
+    // Thread sleep 시간 (폭탄 낙하 속도 및 생성 속도 조절)
     private int sleepTime = 30;
 
-    public MonitorPanel(MainFrame mainFrame, TypingPanel typingPanel, TimePanel timePanel, ItemPanel itemPanel) {
+    // 시간 스레드
+    private TimeThread timeThread;
+    // 게임 시작 시간
+    private Instant startTime;
+
+    public MonitorPanel(MainFrame mainFrame, TypingLifePanel typingLifePanel, TimePanel timePanel, ItemPanel itemPanel) {
         this.mainFrame = mainFrame;
-        this.typingPanel = typingPanel;
+        this.typingLifePanel = typingLifePanel;
         this.timePanel = timePanel;
         this.itemPanel = itemPanel;
 
@@ -68,10 +80,13 @@ public class MonitorPanel extends JPanel {
             } else if (bomb.getBombType() == BombType.NUKE) {
                 g.drawImage(nukeBombImage, location.x, location.y, this);
             }
+            g.setColor(Color.white);
+            g.setFont(new Font("맑은 고딕", Font.BOLD, 15));
             g.drawString(bomb.getWord(), location.x, location.y);
         }
     }
 
+    // 게임 시작
     public void startGame() {
         // 게임시작버튼 추가
         startButton = new JButton("게임시작");
@@ -85,13 +100,39 @@ public class MonitorPanel extends JPanel {
                 // 게임시작버튼 제거
                 remove(startButton);
 
+                // 게임 스레드 시작
                 gameThread = new GameThread();
                 gameThread.start();
+
+                // 시간 스레드 시작
+                timeThread = new TimeThread();
+                timeThread.start();
             }
         });
         add(startButton);
     }
 
+    // 게임 중지
+    public void stopGame() {
+        // 모든 폭탄 제거
+        bombs.clear();
+        // 게임시작버튼 제거
+        if (startButton != null) {
+            remove(startButton);
+        }
+        // 게임 스레드 중지
+        if (gameThread != null) {
+            gameThread.interrupt();
+        }
+        // 시간 라벨 초기화
+        timePanel.resetTimeLabel();
+        // 시간 스레드 중지
+        if (timeThread != null) {
+            timeThread.interrupt();
+        }
+    }
+
+    // 폭탄 제거
     public void removeBomb(String word) {
         for (Bomb bomb : bombs) {
             if (bomb.getWord().equals(word)) {
@@ -102,6 +143,7 @@ public class MonitorPanel extends JPanel {
         this.repaint();
     }
 
+    // 모든 폭탄 제거
     public void removeAllBombs() {
         bombs.clear();
         this.repaint();
@@ -111,16 +153,11 @@ public class MonitorPanel extends JPanel {
         this.sleepTime = sleepTime;
     }
 
-    public void stopGame() {
-        bombs.clear();
-        gameThread.interrupt();
-    }
-
     /**
      * 게임 스레드
      */
     class GameThread extends Thread {
-        private int tickCount = 0;
+        private long tickCount = 0;
 
         @Override
         public void run() {
@@ -128,11 +165,21 @@ public class MonitorPanel extends JPanel {
                 while (!Thread.currentThread().isInterrupted()) {
                     System.out.println("sleepTime: " + sleepTime);
 
-                    if (tickCount == 50) {
-                        tickCount = 0;
+                    // tickCount가 50의 배수일 때마다 폭탄 생성
+                    if (tickCount % 50 == 0) {
                         addBomb();
                     }
+
+                    // tickCount가 1000의 배수일 때마다 폭탄 속도 증가
+                    if (tickCount % 1000 == 0 && sleepTime > 1) {
+                        sleepTime--;
+                    }
+
+                    // 폭탄 이동
                     changeBombLocation();
+
+                    // 체력이 0이 되면 게임 종료
+                    checkLife();
 
                     tickCount++;
                     Thread.sleep(sleepTime);
@@ -142,6 +189,28 @@ public class MonitorPanel extends JPanel {
             }
         }
 
+        private void checkLife() {
+            if (typingLifePanel.isDead()) {
+                // 게임 종료
+                timeThread.interrupt();
+
+                // 유저 정보 업데이트
+                Duration score = Duration.between(startTime, Instant.now());
+                mainFrame.getPlayer().setScore(score);
+
+                // 최고기록 업데이트
+                // TODO
+
+                // 게임 종료 메시지
+                JOptionPane.showMessageDialog(MonitorPanel.this, "게임 오버!", "게임 오버", JOptionPane.INFORMATION_MESSAGE);
+
+                // 게임 종료 후 패널 전환
+                stopGame();
+                mainFrame.changePanel("view.menu.MainMenuPanel");
+            }
+        }
+
+        // 폭탄 생성
         private void addBomb() {
             // 폭탄 생성
             BombType bombType = BombType.generateRandomBombType(mainFrame.getDifficultyType());
@@ -153,6 +222,7 @@ public class MonitorPanel extends JPanel {
             bombs.add(bomb);
         }
 
+        // 폭탄을 아래로 이동
         private void changeBombLocation() {
             for (Bomb bomb : bombs) {
                 Point location = bomb.getLocation();
@@ -160,11 +230,29 @@ public class MonitorPanel extends JPanel {
                 location.y += speed;
 
                 if (location.y > MonitorPanel.this.getHeight()) {
-                    typingPanel.decreaseLife(bomb.getBombType().getDamage());
+                    typingLifePanel.decreaseLife(bomb.getBombType().getDamage());
                     bombs.remove(bomb);
                 }
 
                 MonitorPanel.this.repaint();
+            }
+        }
+    }
+
+    /**
+     * 시간 스레드
+     */
+    class TimeThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                startTime = Instant.now();
+                while (!Thread.currentThread().isInterrupted()) {
+                    Thread.sleep(10);
+                    timePanel.setTimeLabel(Duration.between(startTime, Instant.now()));
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }

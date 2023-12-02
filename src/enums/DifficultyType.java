@@ -1,15 +1,15 @@
 package enums;
 
 public enum DifficultyType {
-    EASY(7, 1.0),
-    NORMAL(5, 1.5),
-    HARD(3, 2.0),
-    FIRE_OCEAN(1, 3.0);
+    EASY(7, 50),
+    NORMAL(5, 42),
+    HARD(3, 34),
+    FIRE_OCEAN(1, 22);
 
     private final int initLife;
-    private final double speedCoefficient;
+    private final int speedCoefficient;
 
-    DifficultyType(int initLife, double speedCoefficient) {
+    DifficultyType(int initLife, int speedCoefficient) {
         this.initLife = initLife;
         this.speedCoefficient = speedCoefficient;
     }
@@ -18,7 +18,7 @@ public enum DifficultyType {
         return initLife;
     }
 
-    public double getSpeedCoefficient() {
+    public int getSpeedCoefficient() {
         return speedCoefficient;
     }
 

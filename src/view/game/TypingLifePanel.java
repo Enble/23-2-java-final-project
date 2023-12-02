@@ -10,12 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class TypingPanel extends JPanel {
+public class TypingLifePanel extends JPanel {
     private final JLabel lifeLabel;
     private final JTextField typingField;
     private int life = 0;
 
-    public TypingPanel(GamePanel gamePanel) {
+    public TypingLifePanel(GamePanel gamePanel) {
         JLabel lifeInfoLabel = new JLabel("체력 : ");
         lifeInfoLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         add(lifeInfoLabel);
@@ -24,7 +24,8 @@ public class TypingPanel extends JPanel {
         lifeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         add(lifeLabel);
 
-        add(Box.createRigidArea(new Dimension(10, 0)));
+        // padding
+        add(Box.createRigidArea(new Dimension(20, 0)));
 
         typingField = new JTextField(30);
         typingField.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -41,7 +42,6 @@ public class TypingPanel extends JPanel {
     }
 
     public void setLifeBasedOnDifficulty(DifficultyType difficultyType) {
-        System.out.println(difficultyType);
         if (difficultyType == DifficultyType.EASY) {
             life = 7;
         } else if (difficultyType == DifficultyType.NORMAL) {
@@ -52,6 +52,10 @@ public class TypingPanel extends JPanel {
             life = 1;
         }
         lifeLabel.setText(String.valueOf(life));
+    }
+
+    public boolean isDead() {
+        return life <= 0;
     }
 
     public void decreaseLife(int damage) {
