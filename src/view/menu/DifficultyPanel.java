@@ -14,7 +14,9 @@ import javax.swing.border.EmptyBorder;
 import view.MainFrame;
 
 public class DifficultyPanel extends JPanel {
+
     public DifficultyPanel(MainFrame mainFrame) {
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(150, 400, 0, 400));
 
@@ -32,7 +34,15 @@ public class DifficultyPanel extends JPanel {
         easyBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // 난이도 설정
                 mainFrame.setDifficultyType(DifficultyType.EASY);
+                // 체력 설정
+                mainFrame.getGamePanel().getTypingPanel().setLifeBasedOnDifficulty(mainFrame.getDifficultyType());
+                // 쓰레드의 sleep 시간 설정
+                mainFrame.getGamePanel().getMonitorPanel().setSleepTime(40);
+                // startGame() 호출
+                mainFrame.getGamePanel().getMonitorPanel().startGame();
+                // 패널 전환
                 mainFrame.changePanel("view.game.GamePanel");
             }
         });
@@ -47,7 +57,15 @@ public class DifficultyPanel extends JPanel {
         normalBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // 난이도 설정
                 mainFrame.setDifficultyType(DifficultyType.NORMAL);
+                // 체력 설정
+                mainFrame.getGamePanel().getTypingPanel().setLifeBasedOnDifficulty(mainFrame.getDifficultyType());
+                // 쓰레드의 sleep 시간 설정
+                mainFrame.getGamePanel().getMonitorPanel().setSleepTime(35);
+                // startGame() 호출
+                mainFrame.getGamePanel().getMonitorPanel().startGame();
+                // 패널 전환
                 mainFrame.changePanel("view.game.GamePanel");
             }
         });
@@ -62,7 +80,15 @@ public class DifficultyPanel extends JPanel {
         hardBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // 난이도 설정
                 mainFrame.setDifficultyType(DifficultyType.HARD);
+                // 체력 설정
+                mainFrame.getGamePanel().getTypingPanel().setLifeBasedOnDifficulty(mainFrame.getDifficultyType());
+                // 쓰레드의 sleep 시간 설정
+                mainFrame.getGamePanel().getMonitorPanel().setSleepTime(30);
+                // startGame() 호출
+                mainFrame.getGamePanel().getMonitorPanel().startGame();
+                // 패널 전환
                 mainFrame.changePanel("view.game.GamePanel");
             }
         });
@@ -77,10 +103,19 @@ public class DifficultyPanel extends JPanel {
         fireOceanBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // 난이도 설정
                 mainFrame.setDifficultyType(DifficultyType.FIRE_OCEAN);
+                // 체력 설정
+                mainFrame.getGamePanel().getTypingPanel().setLifeBasedOnDifficulty(mainFrame.getDifficultyType());
+                // 쓰레드의 sleep 시간 설정
+                mainFrame.getGamePanel().getMonitorPanel().setSleepTime(15);
+                // startGame() 호출
+                mainFrame.getGamePanel().getMonitorPanel().startGame();
+                // 패널 전환
                 mainFrame.changePanel("view.game.GamePanel");
             }
         });
         add(fireOceanBtn);
     }
+
 }

@@ -4,7 +4,7 @@ public enum BombType {
     SMALL(1, 1, 20, 40),
     MEDIUM(2, 2, 30, 60),
     LARGE(3, 3, 40, 80),
-    NUKE(6, 1000, 60, 120);
+    NUKE(5, 1000, 60, 120);
 
     private final int speed;
     private final int damage;
@@ -18,47 +18,48 @@ public enum BombType {
         this.height = height;
     }
 
+    private static BombType bombTypeFromDifficulty(DifficultyType difficulty, int random) {
+        int smallProbability;
+        int mediumProbability;
+        int largeProbability;
+
+        switch (difficulty) {
+            case EASY:
+                smallProbability = 50;
+                mediumProbability = 80;
+                largeProbability = 100;
+                break;
+            case NORMAL:
+                smallProbability = 45;
+                mediumProbability = 75;
+                largeProbability = 95;
+                break;
+            case HARD:
+                smallProbability = 40;
+                mediumProbability = 70;
+                largeProbability = 90;
+                break;
+            default:
+                smallProbability = 30;
+                mediumProbability = 60;
+                largeProbability = 80;
+                break;
+        }
+
+        if (random < smallProbability) {
+            return SMALL;
+        } else if (random < mediumProbability) {
+            return MEDIUM;
+        } else if (random < largeProbability) {
+            return LARGE;
+        } else {
+            return NUKE;
+        }
+    }
+
     public static BombType generateRandomBombType(DifficultyType difficultyType) {
         int random = (int) (Math.random() * 100);
-        if (difficultyType == DifficultyType.EASY) {
-            if (random < 50) {
-                return SMALL;
-            } else if (random < 80) {
-                return MEDIUM;
-            } else {
-                return LARGE;
-            }
-        } else if (difficultyType == DifficultyType.NORMAL) {
-            if (random < 45) {
-                return SMALL;
-            } else if (random < 75) {
-                return MEDIUM;
-            } else if (random < 95) {
-                return LARGE;
-            } else {
-                return NUKE;
-            }
-        } else if (difficultyType == DifficultyType.HARD) {
-            if (random < 40) {
-                return SMALL;
-            } else if (random < 70) {
-                return MEDIUM;
-            } else if (random < 90) {
-                return LARGE;
-            } else {
-                return NUKE;
-            }
-        } else {
-            if (random < 30) {
-                return SMALL;
-            } else if (random < 60) {
-                return MEDIUM;
-            } else if (random < 80) {
-                return LARGE;
-            } else {
-                return NUKE;
-            }
-        }
+        return bombTypeFromDifficulty(difficultyType, random);
     }
 
     public int getSpeed() {
@@ -76,5 +77,4 @@ public enum BombType {
     public int getHeight() {
         return height;
     }
-
 }

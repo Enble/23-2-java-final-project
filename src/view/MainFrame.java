@@ -20,11 +20,6 @@ import view.menu.StartMenuPanel;
 
 public class MainFrame extends JFrame {
     private final CardLayout cardLayout = new CardLayout();
-    private final StartMenuPanel startMenuPanel;
-    private final RegisterPanel registerPanel;
-    private final LoginPanel loginPanel;
-    private final MainMenuPanel mainMenuPanel;
-    private final DifficultyPanel difficultyPanel;
     private final GamePanel gamePanel;
 
     // 현재 이 게임의 플레이어
@@ -46,23 +41,23 @@ public class MainFrame extends JFrame {
         getContentPane().setLayout(cardLayout);
 
         // 시작메뉴
-        startMenuPanel = new StartMenuPanel(this);
+        StartMenuPanel startMenuPanel = new StartMenuPanel(this);
         getContentPane().add("view.menu.StartMenuPanel", startMenuPanel);
 
         // 회원가입
-        registerPanel = new RegisterPanel(this);
+        RegisterPanel registerPanel = new RegisterPanel(this);
         getContentPane().add("view.menu.RegisterPanel", registerPanel);
 
         // 로그인
-        loginPanel = new LoginPanel(this);
+        LoginPanel loginPanel = new LoginPanel(this);
         getContentPane().add("view.menu.LoginPanel", loginPanel);
 
         // 메인메뉴
-        mainMenuPanel = new MainMenuPanel(this);
+        MainMenuPanel mainMenuPanel = new MainMenuPanel(this);
         getContentPane().add("view.menu.MainMenuPanel", mainMenuPanel);
 
         // 난이도 선택
-        difficultyPanel = new DifficultyPanel(this);
+        DifficultyPanel difficultyPanel = new DifficultyPanel(this);
         getContentPane().add("view.menu.DifficultyPanel", difficultyPanel);
 
         // 게임
@@ -77,18 +72,48 @@ public class MainFrame extends JFrame {
         JMenuBar mb = new JMenuBar();
         this.setJMenuBar(mb);
 
+        /**
+         * 게임 메뉴
+         */
+        JMenu gameMenu = new JMenu("게임 메뉴");
+
+        // 메인 메뉴로 돌아가기
+        JMenuItem mainMenuMi = gameMenu.add(new JMenuItem("메인 메뉴"));
+        mainMenuMi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gamePanel.getMonitorPanel().stopGame();
+                changePanel("view.menu.MainMenuPanel");
+            }
+        });
+
+        // 로그아웃
+        JMenuItem logoutMi = gameMenu.add(new JMenuItem("로그아웃"));
+        logoutMi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gamePanel.getMonitorPanel().stopGame();
+                changePanel("view.menu.StartMenuPanel");
+            }
+        });
+
         // 게임 종료
-        JMenu exitMenu = new JMenu("게임 종료");
-        JMenuItem exitMi = exitMenu.add(new JMenuItem("종료"));
+        JMenuItem exitMi = gameMenu.add(new JMenuItem("게임 종료"));
         exitMi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
-        mb.add(exitMenu);
 
+        mb.add(gameMenu);
+
+        /**
+         * 단어장 메뉴
+         */
         JMenu editMenu = new JMenu("단어장");
+
+        // 단어 추가
         JMenuItem addWordMi = editMenu.add(new JMenuItem("단어 추가"));
         addWordMi.addActionListener(new ActionListener() {
             @Override
@@ -102,6 +127,7 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+
         mb.add(editMenu);
     }
 
@@ -115,6 +141,10 @@ public class MainFrame extends JFrame {
 
     public void setPlayer(Member player) {
         this.player = player;
+    }
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
     }
 
     public DifficultyType getDifficultyType() {

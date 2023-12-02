@@ -6,19 +6,16 @@ import javax.swing.JSplitPane;
 import view.MainFrame;
 
 public class GamePanel extends JPanel {
-    private final MainFrame mainFrame;
     private final MonitorPanel monitorPanel;
     private final TypingPanel typingPanel;
-    private final ScorePanel scorePanel;
+    private final TimePanel timePanel;
     private final ItemPanel itemPanel;
 
     public GamePanel(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-
         typingPanel = new TypingPanel(this);
-        scorePanel = new ScorePanel();
+        timePanel = new TimePanel();
         itemPanel = new ItemPanel();
-        monitorPanel = new MonitorPanel(mainFrame, typingPanel, scorePanel, itemPanel);
+        monitorPanel = new MonitorPanel(mainFrame, typingPanel, timePanel, itemPanel);
 
         setLayout(new BorderLayout());
         splitPanel();
@@ -44,7 +41,7 @@ public class GamePanel extends JPanel {
         vPaneRight.setDividerLocation(250);
         vPaneRight.setEnabled(false);
 
-        vPaneRight.setTopComponent(scorePanel);
+        vPaneRight.setTopComponent(timePanel);
         vPaneRight.setBottomComponent(itemPanel);
 
         hPane.setLeftComponent(vPaneLeft);
@@ -53,5 +50,17 @@ public class GamePanel extends JPanel {
 
     public MonitorPanel getMonitorPanel() {
         return monitorPanel;
+    }
+
+    public TypingPanel getTypingPanel() {
+        return typingPanel;
+    }
+
+    public TimePanel getTimePanel() {
+        return timePanel;
+    }
+
+    public ItemPanel getItemPanel() {
+        return itemPanel;
     }
 }

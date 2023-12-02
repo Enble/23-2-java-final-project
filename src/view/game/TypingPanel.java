@@ -9,12 +9,11 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import view.MainFrame;
 
 public class TypingPanel extends JPanel {
-    private int life = 0;
     private final JLabel lifeLabel;
     private final JTextField typingField;
+    private int life = 0;
 
     public TypingPanel(GamePanel gamePanel) {
         JLabel lifeInfoLabel = new JLabel("체력 : ");
@@ -42,6 +41,7 @@ public class TypingPanel extends JPanel {
     }
 
     public void setLifeBasedOnDifficulty(DifficultyType difficultyType) {
+        System.out.println(difficultyType);
         if (difficultyType == DifficultyType.EASY) {
             life = 7;
         } else if (difficultyType == DifficultyType.NORMAL) {

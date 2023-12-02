@@ -2,9 +2,6 @@ package domain;
 
 import enums.BombType;
 import java.awt.Point;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 public class Bomb {
     private Point location;
