@@ -1,29 +1,25 @@
 package domain;
 
+import enums.DifficultyType;
 import java.time.Duration;
 
 public class Member {
     private final String id;
     private final String password;
-    private Duration maxScore = Duration.ZERO;
+    private DifficultyType difficultyType;
+    private Duration score = Duration.ZERO;
 
     public Member(String id, String password) {
         this.id = id;
         this.password = password;
     }
 
-    public void compareAndSetMaxScore(Duration score) {
-        if (score.compareTo(maxScore) > 0) {
-            maxScore = score;
-        }
+    public void setScore(Duration score) {
+        this.score = score;
     }
 
-    public void setMaxScore(Duration maxScore) {
-        this.maxScore = maxScore;
-    }
-
-    public Duration getMaxScore() {
-        return maxScore;
+    public Duration getScore() {
+        return score;
     }
 
     public String getId() {
@@ -32,5 +28,13 @@ public class Member {
 
     public String getPassword() {
         return password;
+    }
+
+    public DifficultyType getDifficultyType() {
+        return difficultyType;
+    }
+
+    public void setDifficultyType(DifficultyType difficultyType) {
+        this.difficultyType = difficultyType;
     }
 }

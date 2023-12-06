@@ -1,7 +1,6 @@
 package view;
 
 import domain.Member;
-import enums.DifficultyType;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,9 +25,6 @@ public class MainFrame extends JFrame {
 
     // 현재 이 게임의 플레이어
     private Member player;
-
-    // 게임 난이도
-    private DifficultyType difficultyType;
 
     public MainFrame() {
         setTitle("타이핑 게임");
@@ -78,8 +74,8 @@ public class MainFrame extends JFrame {
         JMenuBar mb = new JMenuBar();
         this.setJMenuBar(mb);
 
-        /**
-         * 게임 메뉴
+        /*
+          게임 메뉴
          */
         JMenu gameMenu = new JMenu("게임 메뉴");
 
@@ -120,8 +116,8 @@ public class MainFrame extends JFrame {
 
         mb.add(gameMenu);
 
-        /**
-         * 단어장 메뉴
+        /*
+          단어장 메뉴
          */
         JMenu editMenu = new JMenu("단어장");
 
@@ -157,14 +153,6 @@ public class MainFrame extends JFrame {
 
     public GamePanel getGamePanel() {
         return gamePanel;
-    }
-
-    public DifficultyType getDifficultyType() {
-        return difficultyType;
-    }
-
-    public void setDifficultyType(DifficultyType difficultyType) {
-        this.difficultyType = difficultyType;
     }
 
     public RankPanel getRankPanel() {

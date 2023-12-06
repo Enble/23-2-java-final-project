@@ -245,14 +245,13 @@ public class MonitorPanel extends JPanel {
                         Duration score = Duration.between(startTime, Instant.now());
                         timePanel.setTimeLabel(Duration.between(startTime, Instant.now()));
 
-                        // 유저 최고기록 업데이트
-                        mainFrame.getPlayer().compareAndSetMaxScore(score);
+                        // 유저 기록 업데이트
+                        mainFrame.getPlayer().setScore(score);
                         // 유저 정보 업데이트
                         MemberService.getInstance().update(mainFrame.getPlayer());
 
                         // 랭킹 보드 업데이트
-                        RankService.getInstance().updateRankBoard();
-                        mainFrame.getRankPanel().buildRankPanel();
+                        RankService.getInstance().updateRankBoard(mainFrame.getPlayer());
 
                         // 게임 종료 메시지
                         JOptionPane.showMessageDialog(MonitorPanel.this, "게임 오버!", "게임 오버",
@@ -269,7 +268,7 @@ public class MonitorPanel extends JPanel {
         // 폭탄 생성
         private void addBomb() {
             // 폭탄 생성
-            BombType bombType = BombType.generateRandomBombType(mainFrame.getDifficultyType());
+            BombType bombType = BombType.generateRandomBombType(mainFrame.getPlayer().getDifficultyType());
             Point location = new Point(
                     (int) (Math.random() * MonitorPanel.this.getWidth() * 0.8 + MonitorPanel.this.getWidth() * 0.1), 0);
             String word = WordService.nextWord();

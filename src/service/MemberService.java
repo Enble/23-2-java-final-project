@@ -32,7 +32,8 @@ public class MemberService {
     public void update(Member member) {
         for (Member m : members) {
             if (m.getId().equals(member.getId())) {
-                m.setMaxScore(member.getMaxScore());
+                m.setDifficultyType(member.getDifficultyType());
+                m.setScore(member.getScore());
                 break;
             }
         }

@@ -41,11 +41,11 @@ public class DifficultyPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 난이도 설정
-                mainFrame.setDifficultyType(difficultyType);
+                mainFrame.getPlayer().setDifficultyType(difficultyType);
 
                 // MonitorPanel 설정
                 // 체력 설정
-                mainFrame.getGamePanel().getTypingPanel().setLifeBasedOnDifficulty(mainFrame.getDifficultyType());
+                mainFrame.getGamePanel().getTypingPanel().setLifeBasedOnDifficulty(difficultyType);
                 // 쓰레드의 sleep 시간 설정
                 mainFrame.getGamePanel().getMonitorPanel()
                         .setSleepTime(difficultyType.getSpeedCoefficient());
@@ -54,7 +54,7 @@ public class DifficultyPanel extends JPanel {
 
                 // TypingLifePanel 설정
                 // 체력 설정
-                mainFrame.getGamePanel().getTypingPanel().setLifeBasedOnDifficulty(mainFrame.getDifficultyType());
+                mainFrame.getGamePanel().getTypingPanel().setLifeBasedOnDifficulty(difficultyType);
 
                 // TimePanel 설정
                 // 아이디 설정
