@@ -5,28 +5,24 @@ import java.time.Duration;
 public class Member {
     private final String id;
     private final String password;
-    private Duration score;
-
-    private int maxScore = 0;
+    private Duration maxScore = Duration.ZERO;
 
     public Member(String id, String password) {
         this.id = id;
         this.password = password;
     }
 
-    public void setScore(Duration score) {
-        this.score = score;
+    public void compareAndSetMaxScore(Duration score) {
+        if (score.compareTo(maxScore) > 0) {
+            maxScore = score;
+        }
     }
 
-    public Duration getScore() {
-        return score;
-    }
-
-    public void setMaxScore(int maxScore) {
+    public void setMaxScore(Duration maxScore) {
         this.maxScore = maxScore;
     }
 
-    public int getMaxScore() {
+    public Duration getMaxScore() {
         return maxScore;
     }
 

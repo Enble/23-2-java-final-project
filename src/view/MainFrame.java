@@ -15,12 +15,14 @@ import view.game.GamePanel;
 import view.menu.DifficultyPanel;
 import view.menu.LoginPanel;
 import view.menu.MainMenuPanel;
+import view.menu.RankPanel;
 import view.menu.RegisterPanel;
 import view.menu.StartMenuPanel;
 
 public class MainFrame extends JFrame {
     private final CardLayout cardLayout = new CardLayout();
     private final GamePanel gamePanel;
+    private final RankPanel rankPanel;
 
     // 현재 이 게임의 플레이어
     private Member player;
@@ -64,6 +66,10 @@ public class MainFrame extends JFrame {
         gamePanel = new GamePanel(this);
         getContentPane().add("view.game.GamePanel", gamePanel);
 
+        // 랭킹
+        rankPanel = new RankPanel(this);
+        getContentPane().add("view.menu.RankPanel", rankPanel);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -86,6 +92,7 @@ public class MainFrame extends JFrame {
                     JOptionPane.showMessageDialog(null, "로그인이 필요합니다.", "로그인 에러", JOptionPane.ERROR_MESSAGE);
                 } else {
                     gamePanel.getMonitorPanel().stopGame();
+                    gamePanel.getMonitorPanel().clearUI();
                     changePanel("view.menu.MainMenuPanel");
                 }
             }
@@ -159,4 +166,9 @@ public class MainFrame extends JFrame {
     public void setDifficultyType(DifficultyType difficultyType) {
         this.difficultyType = difficultyType;
     }
+
+    public RankPanel getRankPanel() {
+        return rankPanel;
+    }
+
 }

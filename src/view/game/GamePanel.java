@@ -1,6 +1,9 @@
 package view.game;
 
+import enums.ItemType;
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import view.MainFrame;
@@ -14,7 +17,7 @@ public class GamePanel extends JPanel {
     public GamePanel(MainFrame mainFrame) {
         typingLifePanel = new TypingLifePanel(this);
         timePanel = new TimePanel(this);
-        itemPanel = new ItemPanel();
+        itemPanel = new ItemPanel(this);
         monitorPanel = new MonitorPanel(mainFrame, typingLifePanel, timePanel, itemPanel);
 
         setLayout(new BorderLayout());

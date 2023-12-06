@@ -29,6 +29,15 @@ public class MemberService {
         members.add(member);
     }
 
+    public void update(Member member) {
+        for (Member m : members) {
+            if (m.getId().equals(member.getId())) {
+                m.setMaxScore(member.getMaxScore());
+                break;
+            }
+        }
+    }
+
     public boolean isValidMember(String id, String password) {
         for (Member member : members) {
             if (member.getId().equals(id) && member.getPassword().equals(password)) {

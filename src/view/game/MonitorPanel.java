@@ -17,6 +17,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import service.MemberService;
+import service.RankService;
 import service.WordService;
 import view.MainFrame;
 
@@ -46,13 +49,16 @@ public class MonitorPanel extends JPanel {
     private GameThread gameThread;
     // Thread sleep 시간 (폭탄 낙하 속도 및 생성 속도 조절)
     private int sleepTime = 30;
+    // 폭탄 낙하 중지를 위한 flag
+    private boolean stopFlag = false;
 
     // 시간 스레드
     private TimeThread timeThread;
     // 게임 시작 시간
     private Instant startTime;
 
-    public MonitorPanel(MainFrame mainFrame, TypingLifePanel typingLifePanel, TimePanel timePanel, ItemPanel itemPanel) {
+    public MonitorPanel(MainFrame mainFrame, TypingLifePanel typingLifePanel, TimePanel timePanel,
+                        ItemPanel itemPanel) {
         this.mainFrame = mainFrame;
         this.typingLifePanel = typingLifePanel;
         this.timePanel = timePanel;
@@ -107,6 +113,9 @@ public class MonitorPanel extends JPanel {
                 // 시간 스레드 시작
                 timeThread = new TimeThread();
                 timeThread.start();
+
+                // 타이핑 필드의 포커스 요청
+                typingLifePanel.requestTypingFieldFocus();
             }
         });
         add(startButton);
@@ -116,19 +125,22 @@ public class MonitorPanel extends JPanel {
     public void stopGame() {
         // 모든 폭탄 제거
         bombs.clear();
-        // 게임시작버튼 제거
-        if (startButton != null) {
-            remove(startButton);
-        }
         // 게임 스레드 중지
         if (gameThread != null) {
             gameThread.interrupt();
         }
-        // 시간 라벨 초기화
-        timePanel.resetTimeLabel();
         // 시간 스레드 중지
         if (timeThread != null) {
             timeThread.interrupt();
+        }
+    }
+
+    public void clearUI() {
+        // 시간 라벨 초기화
+        timePanel.resetTimeLabel();
+        // 게임시작버튼 제거
+        if (startButton != null) {
+            remove(startButton);
         }
     }
 
@@ -144,13 +156,24 @@ public class MonitorPanel extends JPanel {
     }
 
     // 모든 폭탄 제거
-    public void removeAllBombs() {
+    public void removeAllBomb() {
         bombs.clear();
         this.repaint();
     }
 
+    // 게임 스레드 sleep 시간 설정
     public void setSleepTime(int sleepTime) {
         this.sleepTime = sleepTime;
+    }
+
+    // 폭탄 낙하 중지
+    public void pauseBomb() {
+        gameThread.stopThread();
+    }
+
+    // 폭탄 낙하 재개
+    public void resumeBomb() {
+        gameThread.resumeThread();
     }
 
     /**
@@ -159,11 +182,31 @@ public class MonitorPanel extends JPanel {
     class GameThread extends Thread {
         private long tickCount = 0;
 
+        public void stopThread() {
+            stopFlag = true;
+        }
+
+        public synchronized void resumeThread() {
+            stopFlag = false;
+            notifyAll();
+        }
+
+        private synchronized void checkThreadPause() {
+            try {
+                if (stopFlag) {
+                    wait();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
         @Override
         public void run() {
             try {
                 while (!Thread.currentThread().isInterrupted()) {
-                    System.out.println("sleepTime: " + sleepTime);
+                    // 맞바람 아이템 사용이 감지되면 스레드 일시정지
+                    checkThreadPause();
 
                     // tickCount가 50의 배수일 때마다 폭탄 생성
                     if (tickCount % 50 == 0) {
@@ -191,22 +234,35 @@ public class MonitorPanel extends JPanel {
 
         private void checkLife() {
             if (typingLifePanel.isDead()) {
-                // 게임 종료
-                timeThread.interrupt();
-
-                // 유저 정보 업데이트
-                Duration score = Duration.between(startTime, Instant.now());
-                mainFrame.getPlayer().setScore(score);
-
-                // 최고기록 업데이트
-                // TODO
-
-                // 게임 종료 메시지
-                JOptionPane.showMessageDialog(MonitorPanel.this, "게임 오버!", "게임 오버", JOptionPane.INFORMATION_MESSAGE);
-
-                // 게임 종료 후 패널 전환
+                // 게임 중지
                 stopGame();
-                mainFrame.changePanel("view.menu.MainMenuPanel");
+
+                // 스레드의 interrupt()가 충분히 호출될 수 있도록 invokeLater()를 사용한다.
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 점수 동기화 및 유저 정보 업데이트
+                        Duration score = Duration.between(startTime, Instant.now());
+                        timePanel.setTimeLabel(Duration.between(startTime, Instant.now()));
+
+                        // 유저 최고기록 업데이트
+                        mainFrame.getPlayer().compareAndSetMaxScore(score);
+                        // 유저 정보 업데이트
+                        MemberService.getInstance().update(mainFrame.getPlayer());
+
+                        // 랭킹 보드 업데이트
+                        RankService.getInstance().updateRankBoard();
+                        mainFrame.getRankPanel().buildRankPanel();
+
+                        // 게임 종료 메시지
+                        JOptionPane.showMessageDialog(MonitorPanel.this, "게임 오버!", "게임 오버",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                        // ui 초기화 후 패널 전환
+                        clearUI();
+                        mainFrame.changePanel("view.menu.MainMenuPanel");
+                    }
+                });
             }
         }
 

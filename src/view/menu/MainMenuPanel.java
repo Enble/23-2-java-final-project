@@ -14,7 +14,7 @@ import view.MainFrame;
 public class MainMenuPanel extends JPanel {
     public MainMenuPanel(MainFrame mainFrame) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(new EmptyBorder(250, 400, 0, 400));
+        setBorder(new EmptyBorder(300, 400, 0, 400));
 
         JButton startBtn = new JButton("게임 시작");
         startBtn.setFont(new Font("맑은 고딕", Font.BOLD, 30));
@@ -35,22 +35,9 @@ public class MainMenuPanel extends JPanel {
         rankBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.changePanel("view.RankPanel");
+                mainFrame.changePanel("view.menu.RankPanel");
             }
         });
         add(rankBtn);
-
-        add(Box.createRigidArea(new Dimension(0, 40)));
-
-        JButton settingBtn = new JButton("설정");
-        settingBtn.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-        settingBtn.setAlignmentX(CENTER_ALIGNMENT);
-        settingBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.changePanel("view.SettingPanel");
-            }
-        });
-        add(settingBtn);
     }
 }

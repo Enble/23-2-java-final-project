@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import util.TimeTransfer;
 
 public class TimePanel extends JPanel {
     private final GamePanel gamePanel;
@@ -42,16 +43,8 @@ public class TimePanel extends JPanel {
     }
 
     public void setTimeLabel(Duration duration) {
-        long hours = duration.toHours();
-        long minutes = duration.toMinutes() % 60;
-        long secs = duration.getSeconds() % 60;
-        long millis = duration.toMillis() % 1000;
-
-        if (hours == 0) {
-            timeLabel.setText(String.format("%02d : %02d : %03d", minutes, secs, millis));
-        } else {
-            timeLabel.setText(String.format("%02d : %02d : %02d : %03d", hours, minutes, secs, millis));
-        }
+        String result = TimeTransfer.durationToStringFormat(duration);
+        timeLabel.setText(result);
 
         this.repaint();
     }

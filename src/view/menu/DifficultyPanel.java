@@ -16,7 +16,6 @@ import view.MainFrame;
 public class DifficultyPanel extends JPanel {
     // 기준 속도 (초기값)
     public DifficultyPanel(MainFrame mainFrame) {
-
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(150, 400, 0, 400));
 

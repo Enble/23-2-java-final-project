@@ -1,10 +1,13 @@
 package view.game;
 
 import enums.DifficultyType;
+import enums.ItemType;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,9 +39,36 @@ public class TypingLifePanel extends JPanel {
                 typingField.setText("");
 
                 gamePanel.getMonitorPanel().removeBomb(input);
+                gamePanel.getItemPanel().increaseCoin(10);
             }
         });
         add(typingField);
+
+        // 아이템 사용을 위한 키 리스너
+        typingField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                switch (keyCode) {
+                    case KeyEvent.VK_F1:
+                        gamePanel.getItemPanel().purchaseAndUseItem(ItemType.MEDKIT);
+                        break;
+                    case KeyEvent.VK_F2:
+                        gamePanel.getItemPanel().purchaseAndUseItem(ItemType.HEADWIND);
+                        break;
+                    case KeyEvent.VK_F3:
+                        gamePanel.getItemPanel().purchaseAndUseItem(ItemType.EMP);
+                        break;
+                }
+            }
+        });
+
+        setFocusable(true);
+        typingField.requestFocus();
+    }
+
+    public void requestTypingFieldFocus() {
+        typingField.requestFocus();
     }
 
     public void setLifeBasedOnDifficulty(DifficultyType difficultyType) {
@@ -60,6 +90,14 @@ public class TypingLifePanel extends JPanel {
 
     public void decreaseLife(int damage) {
         life -= damage;
+        if (life < 0) {
+            life = 0;
+        }
+        lifeLabel.setText(String.valueOf(life));
+    }
+
+    public void increaseLife(int heal) {
+        life += heal;
         lifeLabel.setText(String.valueOf(life));
     }
 
