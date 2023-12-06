@@ -11,8 +11,6 @@ public class MemberService {
     private static final MemberService instance = new MemberService();
 
     private MemberService() {
-        // admin 계정 기본 생성
-        save("admin", "admin");
     }
 
     public static MemberService getInstance() {

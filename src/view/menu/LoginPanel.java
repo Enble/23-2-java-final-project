@@ -32,7 +32,7 @@ public class LoginPanel extends JPanel {
         idBox.add(idLabel);
         idBox.add(Box.createRigidArea(new Dimension(20, 0)));
 
-        JTextField idTf = new JTextField("admin", 10);
+        JTextField idTf = new JTextField("", 10);
         idTf.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         idBox.add(idTf);
 
@@ -45,7 +45,7 @@ public class LoginPanel extends JPanel {
         passwordBox.add(passwordLabel);
         passwordBox.add(Box.createRigidArea(new Dimension(20, 0)));
 
-        JTextField passwordTf = new JTextField("admin", 10);
+        JTextField passwordTf = new JTextField("", 10);
         passwordTf.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         passwordBox.add(passwordTf);
 
