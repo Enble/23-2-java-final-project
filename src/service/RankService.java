@@ -44,6 +44,11 @@ public class RankService {
     // 랭킹 파일 읽은 후 랭킹 리스트에 저장
     private void loadRankBoard(Path filePath, List<RankMember> rankBoard) {
         try {
+            // 파일이 없으면 파일을 생성한다.
+            if (!Files.exists(filePath)) {
+                Files.createFile(filePath);
+            }
+
             // 파일 읽기
             List<String> strings = Files.readAllLines(filePath);
             // 랭킹 리스트에 저장

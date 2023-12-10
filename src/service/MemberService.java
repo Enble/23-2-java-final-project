@@ -16,6 +16,11 @@ public class MemberService {
 
     private MemberService() {
         try {
+            // 파일이 없으면 파일을 생성한다.
+            if (!Files.exists(memberFilePath)) {
+                Files.createFile(memberFilePath);
+            }
+
             // 회원 파일 읽기
             List<String> strings = Files.readAllLines(memberFilePath);
             // 회원 리스트에 저장
