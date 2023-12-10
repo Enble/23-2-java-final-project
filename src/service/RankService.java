@@ -5,6 +5,7 @@ import domain.RankMember;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -108,7 +109,7 @@ public class RankService {
     private void addRankMember(Path filePath, List<RankMember> rankBoard, RankMember rankMember) {
         try {
             // 파일에 추가
-            Files.writeString(filePath, RankMember.toString(rankMember) + "\n");
+            Files.writeString(filePath, RankMember.toString(rankMember) + "\n", StandardOpenOption.APPEND);
             // 랭킹 리스트에 추가
             rankBoard.add(rankMember);
             // 랭킹 리스트 정렬

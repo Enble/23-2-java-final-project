@@ -32,7 +32,7 @@ public class WordService {
 
     public static void addWord(String word) {
         try {
-            Files.writeString(Path.of(WORD_PATH), word + System.lineSeparator(), StandardOpenOption.APPEND);
+            Files.writeString(Path.of(WORD_PATH), word + "\n", StandardOpenOption.APPEND);
             words.add(word);
         } catch (IOException e) {
             System.out.println("words.txt 파일을 읽을 수 없습니다.");

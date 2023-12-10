@@ -4,6 +4,7 @@ import domain.Member;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class MemberService {
         try {
             Member member = new Member(id, password);
             // 회원 파일에 회원 정보 저장
-            Files.writeString(memberFilePath, Member.toString(member) + "\n");
+            Files.writeString(memberFilePath, Member.toString(member) + "\n", StandardOpenOption.APPEND);
             // 회원 리스트에 회원 정보 저장
             members.add(member);
         } catch (IOException e) {
