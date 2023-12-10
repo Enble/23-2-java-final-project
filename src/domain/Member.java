@@ -14,6 +14,15 @@ public class Member {
         this.password = password;
     }
 
+    public static String toString(Member member) {
+        return member.id + "," + member.password;
+    }
+
+    public static Member toMember(String string) {
+        String[] split = string.split(",");
+        return new Member(split[0], split[1]);
+    }
+
     public void setScore(Duration score) {
         this.score = score;
     }

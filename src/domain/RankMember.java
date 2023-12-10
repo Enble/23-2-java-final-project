@@ -18,4 +18,13 @@ public class RankMember {
     public Duration getScore() {
         return score;
     }
+
+    public static RankMember toRankMember(String string) {
+        String[] split = string.split(",");
+        return new RankMember(split[0], Duration.parse(split[1]));
+    }
+
+    public static String toString(RankMember rankMember) {
+        return rankMember.id + "," + rankMember.score;
+    }
 }

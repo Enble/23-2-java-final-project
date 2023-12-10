@@ -1,6 +1,5 @@
 package view.rank;
 
-import domain.Member;
 import domain.RankMember;
 import java.awt.Dimension;
 import java.awt.Font;
