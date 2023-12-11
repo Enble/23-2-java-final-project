@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+// 단어 관리 서비스
 public class WordService {
+    // words.txt 파일의 경로
     private static final Path WORD_PATH = Path.of("src/service/words.txt");
+    // 랜덤 객체
     private static final Random RAND = new Random();
+    // 단어 리스트
     private static final List<String> words;
 
     // Static 클래스로 만들어서 외부에서 인스턴스를 생성하지 못하도록 한다.
@@ -24,7 +28,7 @@ public class WordService {
             if (!Files.exists(WORD_PATH)) {
                 Files.createFile(WORD_PATH);
             }
-
+            // 파일의 내용을 읽어서 words 리스트에 저장한다.
             words = new ArrayList<>(Files.readAllLines(WORD_PATH));
         } catch (IOException e) {
             System.out.println("words.txt 파일을 읽을 수 없습니다.");

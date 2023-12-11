@@ -3,8 +3,7 @@ package view.menu;
 import enums.DifficultyType;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,9 +15,12 @@ import view.MainFrame;
 public class DifficultyPanel extends JPanel {
     // 기준 속도 (초기값)
     public DifficultyPanel(MainFrame mainFrame) {
+        // BoxLayout으로 설정
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        // 테두리 border 설정
         setBorder(new EmptyBorder(150, 400, 0, 400));
 
+        // titleLabel 설정
         JLabel titleLabel = new JLabel("난이도 선택");
         titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -27,6 +29,7 @@ public class DifficultyPanel extends JPanel {
         // padding
         add(Box.createRigidArea(new Dimension(0, 60)));
 
+        // 버튼 추가
         addButton("쉬움", DifficultyType.EASY, mainFrame);
         addButton("보통", DifficultyType.NORMAL, mainFrame);
         addButton("어려움", DifficultyType.HARD, mainFrame);
@@ -37,9 +40,10 @@ public class DifficultyPanel extends JPanel {
         JButton btn = new JButton(name);
         btn.setFont(new Font("맑은 고딕", Font.BOLD, 30));
         btn.setAlignmentX(CENTER_ALIGNMENT);
-        btn.addActionListener(new ActionListener() {
+        // 버튼 클릭 리스너 등록
+        btn.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mousePressed(java.awt.event.MouseEvent e) {
                 // 난이도 설정
                 mainFrame.getPlayer().setDifficultyType(difficultyType);
 

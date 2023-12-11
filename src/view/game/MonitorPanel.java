@@ -23,13 +23,14 @@ import service.RankService;
 import service.WordService;
 import view.MainFrame;
 
+// 게임 화면을 담당하는 패널
 public class MonitorPanel extends JPanel {
     private final MainFrame mainFrame;
     private final TypingLifePanel typingLifePanel;
     private final TimePanel timePanel;
     private final ItemPanel itemPanel;
 
-    // 폭탄이 저장되는 배열. 내부적으로 JLabel을 들고 있다.
+    // 폭탄이 저장되는 배열.
     // 동시성 문제를 해결하기 위해 CopyOnWriteArrayList를 사용한다.
     private final List<Bomb> bombs = new CopyOnWriteArrayList<>();
 
@@ -64,6 +65,7 @@ public class MonitorPanel extends JPanel {
         this.timePanel = timePanel;
         this.itemPanel = itemPanel;
 
+        // 레이아웃을 null 로 설정
         setLayout(null);
     }
 
@@ -135,6 +137,7 @@ public class MonitorPanel extends JPanel {
         }
     }
 
+    // UI 초기화
     public void clearUI() {
         // 시간 라벨 초기화
         timePanel.resetTimeLabel();
@@ -145,14 +148,15 @@ public class MonitorPanel extends JPanel {
     }
 
     // 폭탄 제거
-    public void removeBomb(String word) {
+    public boolean removeBomb(String word) {
         for (Bomb bomb : bombs) {
             if (bomb.getWord().equals(word)) {
                 bombs.remove(bomb);
-                break;
+                this.repaint();
+                return true;
             }
         }
-        this.repaint();
+        return false;
     }
 
     // 모든 폭탄 제거
@@ -182,15 +186,18 @@ public class MonitorPanel extends JPanel {
     class GameThread extends Thread {
         private long tickCount = 0;
 
+        // 스레드 일시정지
         public void stopThread() {
             stopFlag = true;
         }
 
+        // 스레드 재개
         public synchronized void resumeThread() {
             stopFlag = false;
             notifyAll();
         }
 
+        // 스레드 일시정지 여부 확인
         private synchronized void checkThreadPause() {
             try {
                 if (stopFlag) {
@@ -224,6 +231,7 @@ public class MonitorPanel extends JPanel {
                     // 체력이 0이 되면 게임 종료
                     checkLife();
 
+                    // tickCount 증가 및 sleep
                     tickCount++;
                     Thread.sleep(sleepTime);
                 }
@@ -232,6 +240,7 @@ public class MonitorPanel extends JPanel {
             }
         }
 
+        // 체력이 0이 되면 게임 종료
         private void checkLife() {
             if (typingLifePanel.isDead()) {
                 // 게임 중지
@@ -280,15 +289,18 @@ public class MonitorPanel extends JPanel {
         // 폭탄을 아래로 이동
         private void changeBombLocation() {
             for (Bomb bomb : bombs) {
+                // 폭탄 위치 변경
                 Point location = bomb.getLocation();
                 int speed = bomb.getBombType().getSpeed();
                 location.y += speed;
 
+                // 폭탄이 화면 아래로 벗어나면 체력 감소 및 폭탄 제거
                 if (location.y > MonitorPanel.this.getHeight()) {
                     typingLifePanel.decreaseLife(bomb.getBombType().getDamage());
                     bombs.remove(bomb);
                 }
 
+                // 화면 다시 그리기
                 MonitorPanel.this.repaint();
             }
         }
@@ -301,9 +313,11 @@ public class MonitorPanel extends JPanel {
         @Override
         public void run() {
             try {
+                // 게임 시작 시간 저장
                 startTime = Instant.now();
                 while (!Thread.currentThread().isInterrupted()) {
                     Thread.sleep(10);
+                    // 시간 라벨 업데이트
                     timePanel.setTimeLabel(Duration.between(startTime, Instant.now()));
                 }
             } catch (InterruptedException e) {

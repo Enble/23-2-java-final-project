@@ -18,15 +18,18 @@ import service.RankService;
 import service.TimeTransfer;
 import view.menu.RankPanel;
 
+// 어려움 랭킹 패널
 public class HardRankPanel extends JPanel {
     private final RankPanel rankPanel;
 
     public HardRankPanel(RankPanel rankPanel) {
         this.rankPanel = rankPanel;
 
+        // BoxLayout으로 세로 정렬
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(20, 300, 20, 300));
 
+        // title label
         JLabel titleLabel = new JLabel("어려움 랭킹");
         titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -36,6 +39,7 @@ public class HardRankPanel extends JPanel {
     public void buildRankPanel() {
         this.removeAll();
 
+        // title label
         JLabel titleLabel = new JLabel("어려움 랭킹");
         titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -44,6 +48,7 @@ public class HardRankPanel extends JPanel {
         // padding
         add(Box.createRigidArea(new Dimension(0, 40)));
 
+        // 랭크 리스트를 담을 패널
         JPanel rankScrollPane = new JPanel();
         rankScrollPane.setLayout(new BoxLayout(rankScrollPane, BoxLayout.Y_AXIS));
 
@@ -60,17 +65,19 @@ public class HardRankPanel extends JPanel {
             rankScrollPane.add(rankLabel);
         }
 
+        // 스크롤 패널 붙이기
         JScrollPane scrollPane = new JScrollPane(rankScrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
         add(scrollPane);
 
+        // padding
         add(Box.createRigidArea(new Dimension(0, 40)));
 
         // 뒤로가기 버튼
         JButton backButton = new JButton("뒤로가기");
         backButton.setFont(new Font("맑은 고딕", Font.BOLD, 30));
         backButton.setAlignmentX(CENTER_ALIGNMENT);
+        // 뒤로가기 버튼 클릭 시
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

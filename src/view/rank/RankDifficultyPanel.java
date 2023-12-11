@@ -18,9 +18,11 @@ public class RankDifficultyPanel extends JPanel {
     public RankDifficultyPanel(RankPanel rankPanel) {
         this.rankPanel = rankPanel;
 
+        // BoxLayout으로 세로 정렬
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(150, 400, 0, 400));
 
+        // title label
         JLabel titleLabel = new JLabel("난이도별 랭크 보드");
         titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -29,12 +31,14 @@ public class RankDifficultyPanel extends JPanel {
         // padding
         add(Box.createRigidArea(new Dimension(0, 60)));
 
+        // 난이도 버튼
         addButton("쉬움", DifficultyType.EASY, rankPanel);
         addButton("보통", DifficultyType.NORMAL, rankPanel);
         addButton("어려움", DifficultyType.HARD, rankPanel);
         addButton("불바다", DifficultyType.FIRE_OCEAN, rankPanel);
     }
 
+    // 난이도 버튼 추가
     private void addButton(String name, DifficultyType difficultyType, RankPanel rankPanel) {
         JButton btn = new JButton(name);
         btn.setFont(new Font("맑은 고딕", Font.BOLD, 30));

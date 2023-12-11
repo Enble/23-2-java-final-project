@@ -18,7 +18,9 @@ import view.menu.RankPanel;
 import view.menu.RegisterPanel;
 import view.menu.StartMenuPanel;
 
+// 메인 프레임
 public class MainFrame extends JFrame {
+    // 카드 레이아웃
     private final CardLayout cardLayout = new CardLayout();
     private final GamePanel gamePanel;
     private final RankPanel rankPanel;
@@ -33,6 +35,7 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
+        // 메뉴바 생성
         makeMenu();
 
         // 카드 레이아웃으로 설정
@@ -70,7 +73,9 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
+    // 메뉴바 생성
     private void makeMenu() {
+        // 메뉴바 생성
         JMenuBar mb = new JMenuBar();
         this.setJMenuBar(mb);
 
@@ -84,6 +89,7 @@ public class MainFrame extends JFrame {
         mainMenuMi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // 로그인이 되어있지 않으면 메인 메뉴로 돌아갈 수 없음
                 if (player == null) {
                     JOptionPane.showMessageDialog(null, "로그인이 필요합니다.", "로그인 에러", JOptionPane.ERROR_MESSAGE);
                 } else {
@@ -99,6 +105,7 @@ public class MainFrame extends JFrame {
         logoutMi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // 게임이 진행 중이면 게임을 종료하고 로그아웃
                 gamePanel.getMonitorPanel().stopGame();
                 setPlayer(null);
                 changePanel("view.menu.StartMenuPanel");
@@ -126,11 +133,13 @@ public class MainFrame extends JFrame {
         addWordMi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // 단어 추가
                 String word = JOptionPane.showInputDialog("추가할 단어를 입력하세요.");
+                // 단어가 null이 아니면 단어 추가
                 if (word != null) {
                     WordService.addWord(word);
                     JOptionPane.showMessageDialog(null, "단어가 추가되었습니다.", "단어 추가 성공", JOptionPane.INFORMATION_MESSAGE);
-                } else {
+                } else { // 단어가 null이면 단어 추가 실패
                     JOptionPane.showMessageDialog(null, "단어를 입력하지 않았습니다.", "단어 추가 오류", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -139,6 +148,7 @@ public class MainFrame extends JFrame {
         mb.add(editMenu);
     }
 
+    // 패널 변경
     public void changePanel(String panelName) {
         cardLayout.show(getContentPane(), panelName);
     }

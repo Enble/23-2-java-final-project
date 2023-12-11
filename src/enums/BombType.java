@@ -1,28 +1,33 @@
 package enums;
 
+// 폭탄 종류 열거형
 public enum BombType {
-    SMALL(1, 1, 20, 40),
-    MEDIUM(2, 2, 30, 60),
-    LARGE(3, 3, 40, 80),
-    NUKE(5, 1000, 60, 120);
+    // 작은 폭탄
+    SMALL(1, 1),
+    // 중간 폭탄
+    MEDIUM(2, 2),
+    // 큰 폭탄
+    LARGE(3, 3),
+    // 핵폭탄
+    NUKE(5, 1000);
 
+    // 폭탄 속도
     private final int speed;
+    // 폭탄 데미지
     private final int damage;
-    private final int width;
-    private final int height;
 
-    BombType(int speed, int damage, int width, int height) {
+    BombType(int speed, int damage) {
         this.speed = speed;
         this.damage = damage;
-        this.width = width;
-        this.height = height;
     }
 
+    // 난이도에 따른 폭탄 종류 반환
     private static BombType bombTypeFromDifficulty(DifficultyType difficulty, int random) {
         int smallProbability;
         int mediumProbability;
         int largeProbability;
 
+        // 난이도에 폭탄 생성 확률 설정
         switch (difficulty) {
             case EASY:
                 smallProbability = 50;
@@ -46,6 +51,7 @@ public enum BombType {
                 break;
         }
 
+        // 랜덤 값에 따른 폭탄 종류 반환
         if (random < smallProbability) {
             return SMALL;
         } else if (random < mediumProbability) {
@@ -57,6 +63,7 @@ public enum BombType {
         }
     }
 
+    // 난이도에 따른 랜덤 폭탄 종류 반환
     public static BombType generateRandomBombType(DifficultyType difficultyType) {
         int random = (int) (Math.random() * 100);
         return bombTypeFromDifficulty(difficultyType, random);
@@ -70,11 +77,4 @@ public enum BombType {
         return damage;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
 }

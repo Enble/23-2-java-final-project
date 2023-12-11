@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+// 랭킹 관련 기능을 담당하는 서비스
 public class RankService {
     /**
      * 싱글톤 패턴 관련 코드
@@ -23,9 +24,11 @@ public class RankService {
         loadRankBoard(fireOceanRankBoardFilePath, fireOceanRankBoard);
     }
 
+    // 싱글톤 객체 반환
     public static RankService getInstance() {
         return instance;
     }
+
     /**
      * 랭킹 관련 코드
      */
@@ -63,7 +66,7 @@ public class RankService {
         rankBoard.sort(compare);
     }
 
-    // 랭킹 정렬
+    // 랭킹 정렬을 위한 Comparator
     Comparator<RankMember> compare = new Comparator<>() {
         @Override
         public int compare(RankMember o1, RankMember o2) {
@@ -94,8 +97,8 @@ public class RankService {
     // 랭킹 업데이트
     private void checkAndUpdateRank(Path filePath, List<RankMember> rankBoard, RankMember rankMember) {
         // 랭킹 리스트에 있는지 확인
-        // 있으면 점수 비교해서 더 높은 점수면 업데이트
         for (RankMember member : rankBoard) {
+            // 있으면 점수 비교해서 더 높은 점수면 업데이트
             if (member.getId().equals(rankMember.getId())) {
                 if (member.getScore().compareTo(rankMember.getScore()) < 0) {
                     removeRankMember(filePath, rankBoard, member);
@@ -126,8 +129,7 @@ public class RankService {
         }
     }
 
-    // 랭킹 업데이트
-    // 파일 및 랭킹 리스트에 업데이트
+    // 랭크 멤버 삭제
     private void removeRankMember(Path filePath, List<RankMember> rankBoard, RankMember rankMember) {
         try {
             // 파일에서 삭제

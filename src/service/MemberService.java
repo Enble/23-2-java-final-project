@@ -8,6 +8,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+// 회원 관련 기능을 담당하는 서비스
 public class MemberService {
     /**
      * 싱글톤 패턴 관련 코드
@@ -34,6 +35,7 @@ public class MemberService {
         }
     }
 
+    // 싱글톤 객체 반환
     public static MemberService getInstance() {
         return instance;
     }
@@ -46,6 +48,7 @@ public class MemberService {
     // 회원 리스트
     private final List<Member> members = new ArrayList<>();
 
+    // 회원 정보 저장
     public void save(String id, String password) {
         try {
             Member member = new Member(id, password);
@@ -63,7 +66,7 @@ public class MemberService {
     // 회원 정보 수정
     public void update(Member member) {
         for (Member m : members) {
-            // 아이디가 동일한 경우
+            // 아이디가 동일한 경우 업데이트 수행
             if (m.getId().equals(member.getId())) {
                 m.setDifficultyType(member.getDifficultyType());
                 m.setScore(member.getScore());
@@ -75,12 +78,12 @@ public class MemberService {
     // 로그인 검증
     public boolean isValidMember(String id, String password) {
         for (Member member : members) {
-            // 아이디와 비밀번호가 동일한 경우
+            // 아이디와 비밀번호가 동일한 경우 true 반환
             if (member.getId().equals(id) && member.getPassword().equals(password)) {
                 return true;
             }
         }
-        // 아이디와 비밀번호가 동일한 회원이 없는 경우
+        // 아이디와 비밀번호가 동일한 회원이 없는 경우 false 반환
         return false;
     }
 }

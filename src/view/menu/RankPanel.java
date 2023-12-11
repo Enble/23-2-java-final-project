@@ -1,11 +1,7 @@
 package view.menu;
 
 import java.awt.CardLayout;
-import java.awt.Font;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import view.MainFrame;
 import view.rank.EasyRankPanel;
 import view.rank.FireOceanRankPanel;
@@ -13,6 +9,7 @@ import view.rank.HardRankPanel;
 import view.rank.NormalRankPanel;
 import view.rank.RankDifficultyPanel;
 
+// 랭킹 패널
 public class RankPanel extends JPanel {
     // 카드 레이아웃
     private final CardLayout cardLayout = new CardLayout();
@@ -54,10 +51,12 @@ public class RankPanel extends JPanel {
         add("view.rank.FireOceanRankPanel", fireOceanRankPanel);
     }
 
+    // 랭킹 패널의 cardLayout을 이용하여 패널을 변경
     public void changePanel(String panelName) {
         cardLayout.show(this, panelName);
     }
 
+    // 랭킹 패널의 랭킹을 갱신
     public void buildRankPanel() {
         easyRankPanel.buildRankPanel();
         normalRankPanel.buildRankPanel();
