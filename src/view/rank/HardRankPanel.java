@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import service.RankService;
-import util.TimeTransfer;
+import service.TimeTransfer;
 import view.menu.RankPanel;
 
 public class HardRankPanel extends JPanel {

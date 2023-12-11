@@ -3,13 +3,12 @@ package view.game;
 import java.awt.Color;
 import java.awt.Font;
 import java.time.Duration;
-import java.util.Timer;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import util.TimeTransfer;
+import service.TimeTransfer;
 
 public class TimePanel extends JPanel {
     private final GamePanel gamePanel;

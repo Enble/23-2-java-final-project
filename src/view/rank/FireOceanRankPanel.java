@@ -1,6 +1,5 @@
 package view.rank;
 
-import domain.Member;
 import domain.RankMember;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import service.RankService;
-import util.TimeTransfer;
+import service.TimeTransfer;
 import view.menu.RankPanel;
 
 public class FireOceanRankPanel extends JPanel {
